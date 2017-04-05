@@ -68,11 +68,90 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var UI = __webpack_require__(1);
+
+var app = function(){
+  new UI();
+};
+
+window.onload = app;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var CountryList = __webpack_require__(3);
+countryList = new CountryList();
+
+var UI = function(){
+  countryList.populate();
+};
+
+UI.prototype = {
+
+};
+
+module.exports = UI;
+
+/***/ }),
+/* 2 */,
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getRequest = __webpack_require__(4);
+
+var CountryList = function(){
+  var restCountriesAll = 'https://restcountries.eu/rest/v2/all'
+  getRequest(restCountriesAll, this.populate);
+};
+
+CountryList.prototype = {
+  populate: function(){
+    if(this.status !== 200){
+      return;
+    }
+    var jsonString = this.responseText;
+    var countriesJson = JSON.parse(jsonString);
+    console.log('todos los países', countriesJson);
+
+    var selector = document.querySelector('#country-picker');
+    countriesJson.forEach(function(country){
+      var option = document.createElement('option');
+      option.innerText = country.name;
+      selector.appendChild(option);
+    })
+
+    }
+  }
+
+
+
+module.exports = CountryList;
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
-var app = function(){};
+var makeGetRequest = function(url, callback) {
+  var request = new XMLHttpRequest();
+  request.open('GET', url);
+  request.onload = callback;
+  request.send();
+};
 
-  window.onload = app;
+module.exports = makeGetRequest;
+
+
+
+
+
+
+
+
+
 
 /***/ })
 /******/ ]);

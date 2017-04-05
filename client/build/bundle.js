@@ -70,32 +70,18 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var UI = __webpack_require__(1);
+var CountrySelector = __webpack_require__(5);
+var addToList = __webpack_require__(6);
 
 var app = function(){
-  new UI();
+  new CountrySelector();
+  new addToList();
 };
 
 window.onload = app;
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var CountryList = __webpack_require__(3);
-countryList = new CountryList();
-
-var UI = function(){
-  countryList.populate();
-};
-
-UI.prototype = {
-
-};
-
-module.exports = UI;
-
-/***/ }),
+/* 1 */,
 /* 2 */,
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -114,7 +100,6 @@ CountryList.prototype = {
     }
     var jsonString = this.responseText;
     var countriesJson = JSON.parse(jsonString);
-    console.log('todos los países', countriesJson);
 
     var selector = document.querySelector('#country-picker');
     countriesJson.forEach(function(country){
@@ -152,6 +137,52 @@ module.exports = makeGetRequest;
 
 
 
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var CountryList = __webpack_require__(3);
+countryList = new CountryList();
+
+var CountrySelector = function(){
+  countryList.populate();
+};
+
+CountrySelector.prototype = {
+
+};
+
+module.exports = CountrySelector;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var makePostRequest = __webpack_require__(7);
+
+var AddToList = function(){
+  var button = document.querySelector('#btn-select-country');
+  button.onclick = function(){
+    makePostRequest();
+  }
+};
+
+module.exports = AddToList;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+var makePostRequest = function(url, callback, payload){
+  var request = new XMLHttpRequest();
+  request.open('POST', url);
+  request.setRequestHeader("Content-type", "application/json");
+  request.onload = callback;
+  request.send(payload);
+};
+
+module.exports = makePostRequest;
 
 /***/ })
 /******/ ]);

@@ -12,7 +12,6 @@ CountryList.prototype = {
     }
     var jsonString = this.responseText;
     var countriesJson = JSON.parse(jsonString);
-    console.log('todos los países', countriesJson);
 
     var selector = document.querySelector('#country-picker');
     countriesJson.forEach(function(country){

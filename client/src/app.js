@@ -1,7 +1,9 @@
-var UI = require('./views/UI');
+var CountrySelector = require('./views/CountrySelector');
+var addToList = require('./views/addToList');
 
 var app = function(){
-  new UI();
+  new CountrySelector();
+  new addToList();
 };
 
 window.onload = app;
